@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "pretty": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\""
   },
   "keywords": [],
   "author": "",
@@ -15,5 +16,8 @@
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "nodemon": "^3.1.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
   }
 }
