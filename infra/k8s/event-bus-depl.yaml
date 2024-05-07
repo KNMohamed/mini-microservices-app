@@ -21,7 +21,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: event-bus-clusterip-svc
+  name: event-bus-clusterip-srv
 spec:
   selector:
     app: event-bus
