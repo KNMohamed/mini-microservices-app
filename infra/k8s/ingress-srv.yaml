@@ -1,0 +1,67 @@
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  labels:
+    app.kubernetes.io/component: controller
+  name: nginx
+  annotations:
+    ingressclass.kubernetes.io/is-default-class: "true"
+spec:
+  controller: k8s.io/ingress-nginx
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-srv
+  annotations:
+    # nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: posts.com
+      http:
+        paths:
+          - pathType: Prefix
+            backend:
+              serviceName: posts-clusterip-srv
+              servicePort: 4000
+            path: /posts
+          - pathType: Prefix
+            backend:
+              service:
+                name: query-clusterip-srv
+                port: 
+                  number: 4002
+          - pathType: ImplementationSpecific
+            path: /posts/?(.*)/comments
+            backend:
+              service:
+                name: comments-clusterip-srv
+                port: 
+                  number: 4001
+          - pathType: ImplementationSpecific
+            path: /?(.*)
+            backend:
+              service:
+                name: client-clusterip-srv
+                port: 
+                  number: 3000
+  # This section is only required if TLS is to be enabled for the Ingress
+  # tls:
+  #   - hosts:
+  #     - posts.com
+  #     secretName: posts-tls
+
+# ---
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: posts-tls
+#   namespace: posts
+# data:
+#   tls.crt: <base64 encoded cert>
+#   tls.key: <base64 encoded key>
+# type: kubernetes.io/tls
