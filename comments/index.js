@@ -57,6 +57,8 @@ app.post("/events", async (req, res) => {
         postId,
         content,
       },
+    }).catch((err) => {
+      console.log(err.message);
     });
   }
   res.send({});

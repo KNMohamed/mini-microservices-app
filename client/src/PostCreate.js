@@ -9,6 +9,8 @@ const PostCreate = () => {
 
     await axios.post("http://posts.com/posts/create", {
       title,
+    }).catch((err) => {
+      console.log(err.message);
     });
 
     setTitle("");

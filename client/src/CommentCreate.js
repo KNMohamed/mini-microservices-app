@@ -9,6 +9,8 @@ const CommentCreate = ({ postId }) => {
 
     await axios.post(`http://posts.com/posts/${postId}/comments`, {
       content,
+    }).catch((err) => {
+      console.log(err.message);
     });
 
     setContent("");
